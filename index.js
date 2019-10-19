@@ -17,7 +17,8 @@ const availableDays = getAvailableDays(true, alreadyOff);
 const mapString = availableDays.map(d => d.string);
 const defaultMethod = 'randomPickIndex';
 
-standard_input.on('data', function (input) {
+standard_input.on('data', function (_input) {
+  const input = _input.trim();
   const method = selectionMethod[input] !== undefined ? selectionMethod[input] : selectionMethod[defaultMethod];
 
   const days = [];
