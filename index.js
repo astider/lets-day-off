@@ -1,5 +1,8 @@
 const { getAvailableDays } = require('./availableDays');
-const { randomPickIndex } = require('./functions');
+const selectionMethod = require('./functions');
+
+const standard_input = process.stdin;
+standard_input.setEncoding('utf-8');
 
 const alreadyOff = [
   '29/11/2019',
@@ -11,17 +14,23 @@ const alreadyOff = [
 ];
 
 const availableDays = getAvailableDays(true, alreadyOff);
-const days = [];
 const mapString = availableDays.map(d => d.string);
-let wantToDayOff = 10;
-let mutableDates = mapString;
+const defaultMethod = 'randomPickIndex';
 
-while (wantToDayOff > 0) {
-  const pickIndex = randomPickIndex(mutableDates);
-  const pick = mutableDates[pickIndex];
-  days.push(pick);
-  mutableDates = mutableDates.filter(d => d !== pick);
-  wantToDayOff--;
-}
+standard_input.on('data', function (input) {
+  const method = selectionMethod[input] !== undefined ? selectionMethod[input] : selectionMethod[defaultMethod];
 
-console.log(days);
+  const days = [];
+  let wantToDayOff = 10;
+  let mutableDates = mapString;
+
+  while (wantToDayOff > 0) {
+    const pickIndex = method(mutableDates);
+    const pick = mutableDates[pickIndex];
+    days.push(pick);
+    mutableDates = mutableDates.filter(d => d !== pick);
+    wantToDayOff--;
+  }
+
+  console.log(days);
+});
