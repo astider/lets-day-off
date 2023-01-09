@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "luxon": "^1.19.3"
+    "luxon": "^2.5.2"
   }
 }
